@@ -1,0 +1,24 @@
+{
+  "name": "p2p",
+  "version": "1.0.0",
+  "description": "peer to peer video demo",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alxolr/p2p.git"
+  },
+  "author": "Alexandru Olaru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alxolr/p2p/issues"
+  },
+  "homepage": "https://github.com/alxolr/p2p#readme",
+  "devDependencies": {
+    "eslint": "^3.14.1",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.2.0"
+  }
+}
