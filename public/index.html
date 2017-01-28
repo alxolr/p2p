@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+</head>
+
+<body>
+  <h1>Dashboard</h1>
+  <a href="/emitter.html">emitter</a>
+  <div id="peers"></div>
+  <script>
+    const socket = io();
+    socket.emit('peerpool');
+    socket.on('peerpool', (peers) => {
+      document.querySelector('#peers').innerHTML = peers;
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Emitter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.14/peer.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+</head>
+
+<body>
+  <h1>Emitter</h1>
+  <h2 id="peer"></h2>
+  <div id="peers"></div>
+  <script type="text/javascript">
+
+    const peer = new Peer({
+      host: 'localhost',
+      port: 8080,
+      path: 'api'
+    });
+
+    const socket = io();
+    const peerElement = document.querySelector('#peer');
+
+    peer.on('open', (id) => {
+      peerElement.innerHTML = `Peer: ${id}`;
+      socket.emit('peer', id);
+    });
+  </script>
+</body>
+
+</html>
