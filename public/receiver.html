@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.14/peer.js"></script>
+</head>
+
+<body>
+  <h1>Receiver</h1>
+  <h2 id="peer"></h2>
+
+  <video id="stream" autoplay controls></video>
+  <script>
+
+    const peer = new Peer({
+      host: 'localhost',
+      port: 8080,
+      path: 'api'
+    });
+    const video = document.querySelector('#stream');
+    const peerElement = document.querySelector('#peer');
+
+    peer.on('open', (id) => {
+      peerElement.innerHTML = `Peer: ${id}`;
+    });
+
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    navigator.getUserMedia({ video: true, audio: true }, function (stream) {
+      var call = peer.call('0x4r06afjpgbajas', stream);
+      call.on('stream', function (remoteStream) {
+        video.src = window.URL.createObjectURL(remoteStream);
+      });
+    }, function (err) {
+      console.log('Failed to get local stream', err);
+    });
+  </script>
+</body>
+
+</html>

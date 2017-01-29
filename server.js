@@ -6,7 +6,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 const port = process.env.PORT || 8080;
-let peerPool = [];
+const peerPool = [];
 const sockets = [];
 
 const peerMapping = {
@@ -23,11 +23,8 @@ io.on('connection', (socket) => {
   sockets.push(socket);
   socket.on('peer', (peerId) => {
     peerMapping[socket] = peerId;
-    const idx = peerPool.indexOf(peerId);
-    if (idx === -1) {
-      peerPool.push(peerId);
-      sockets.forEach(so => so.emit('peerpool', peerPool));
-    }
+    peerPool.push(peerId);
+    sockets.forEach(so => so.emit('peerpool', peerPool));
   });
 
   socket.on('peerpool', () => {
@@ -35,13 +32,15 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    const peerId = peerMapping[socket];
-    const idx = peerPool.indexOf(peerId);
-    if (idx !== -1) {
-      peerPool = peerPool.splice(idx, 1);
-      sockets.forEach(so => so.emit('peerpool', peerPool));
-    }
-    delete peerMapping[socket];
+    // const peerId = peerMapping[socket];
+    // console.log(peerId, peerPool);
+    // const idx = peerPool.indexOf(peerId);
+    // console.log(idx);
+    // if (idx !== -1) {
+    // peerPool.slice(idx, 1);
+    // sockets.forEach(so => so.emit('peerpool', peerPool));
+    // }
+    // delete peerMapping[socket];
   });
 });
 
