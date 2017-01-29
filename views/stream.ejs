@@ -7,13 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.14/peer.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-
 </head>
 
 <body>
-  <h1>Emitter</h1>
+  <h1>Streaming camera</h1>
   <h2 id="peer"></h2>
-  <div id="peers"></div>
+  <p>Camera will start streaming as soon as a watcher will subscribe to it.</p>
+  <div id="message"></div>
   <script type="text/javascript">
 
     const peer = new Peer({
@@ -24,6 +24,7 @@
 
     const socket = io();
     const peerElement = document.querySelector('#peer');
+    const msg = document.querySelector('#message');
 
     peer.on('open', (id) => {
       peerElement.innerHTML = `Peer: ${id}`;
@@ -32,15 +33,12 @@
 
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
     
-    peer.on('call', function (call) {
-      console.log('ceva face macar');
-      navigator.getUserMedia({ video: true, audio: true }, function (stream) {
-        call.answer(stream); // Answer the call with an A/V stream.
-        // call.on('stream', function (remoteStream) {
-        //   // Show stream in some video/canvas element.
-        // });
-      }, function (err) {
-        console.log('Failed to get local stream', err);
+    peer.on('call', (call) => {
+      navigator.getUserMedia({ video: true, audio: true }, (stream) => {
+        call.answer(stream);
+        document.querySelector('#message').innerHTML = 'Streaming has started enjoy your watch!';
+      }, (err) => {
+        msg.innerHTML = `Failed to capture stream: ${err}`;
       });
     });
 

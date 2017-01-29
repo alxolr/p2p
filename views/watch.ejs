@@ -14,7 +14,6 @@
 
   <video id="stream" autoplay controls></video>
   <script>
-
     const peer = new Peer({
       host: 'localhost',
       port: 8080,
@@ -22,18 +21,18 @@
     });
     const video = document.querySelector('#stream');
     const peerElement = document.querySelector('#peer');
-
+    
     peer.on('open', (id) => {
       peerElement.innerHTML = `Peer: ${id}`;
     });
 
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-    navigator.getUserMedia({ video: true, audio: true }, function (stream) {
-      var call = peer.call('0x4r06afjpgbajas', stream);
-      call.on('stream', function (remoteStream) {
+    navigator.getUserMedia({ video: true, audio: true }, (stream) => {
+      var call = peer.call('<%= id %>', stream);
+      call.on('stream', (remoteStream) => {
         video.src = window.URL.createObjectURL(remoteStream);
       });
-    }, function (err) {
+    }, (err) => {
       console.log('Failed to get local stream', err);
     });
   </script>
