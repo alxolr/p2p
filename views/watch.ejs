@@ -17,12 +17,11 @@
     function getHost() {
       return location.origin
           .replace('http://', '')
-          .replace(':8080', '');
     }
 
     const peer = new Peer({
       host: getHost(),
-      port: 8080,
+      port: 80,
       path: 'api'
     });
     const video = document.querySelector('#stream');
