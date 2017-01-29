@@ -9,13 +9,24 @@
 
 <body>
   <h1><%= title %></h1>
-  <a href="/emitter.html">emitter</a>
-  <div id="peers"></div>
-  <script>
+  <ul id="peers"></ul>
+  <script type="text/javascript">
     const socket = io();
+    const peersElement = document.getElementById('peers');
+
     socket.emit('peerpool');
     socket.on('peerpool', (peers) => {
-      document.querySelector('#peers').innerHTML = peers;
+
+      peersElement.innerHTML = '';
+      peers.forEach(peer => {
+        const a = document.createElement('a');
+        const li = document.createElement('li');
+        peersElement.appendChild(li);
+
+        li.appendChild(a);
+        a.setAttribute('href', `/watch/${peer}`);
+        a.innerHTML = peer;
+      })
     });
   </script>
 </body>

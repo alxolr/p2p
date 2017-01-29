@@ -1,12 +1,12 @@
 const sockets = [];
 const peerPool = [];
-const peerMapping = {};
+const mapping = {};
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
     sockets.push(socket);
     socket.on('peer', (peerId) => {
-      peerMapping[socket] = peerId;
+      mapping[socket.id] = peerId;
       peerPool.push(peerId);
       sockets.forEach(so => so.emit('peerpool', peerPool));
     });
@@ -16,15 +16,15 @@ module.exports = (io) => {
     });
 
     socket.on('disconnect', () => {
-      // const peerId = peerMapping[socket];
-      // console.log(peerId, peerPool);
-      // const idx = peerPool.indexOf(peerId);
-      // console.log(idx);
-      // if (idx !== -1) {
-      // peerPool.slice(idx, 1);
-      // sockets.forEach(so => so.emit('peerpool', peerPool));
-      // }
-      // delete peerMapping[socket];
+      const peerId = mapping[socket.id];
+      if (peerId) {
+        const idx = peerPool.indexOf(peerId);
+        if (idx !== -1) {
+          peerPool.splice(idx, 1);
+        }
+      }
+      sockets.forEach(so => so.emit('peerpool', peerPool));
+      delete mapping[socket.id];
     });
   });
 };

@@ -14,19 +14,28 @@
 
   <video id="stream" autoplay controls></video>
   <script>
+    function getHost() {
+      return location.origin
+          .replace('http://', '')
+          .replace(':8080', '');
+    }
+
     const peer = new Peer({
-      host: 'localhost',
+      host: getHost(),
       port: 8080,
       path: 'api'
     });
     const video = document.querySelector('#stream');
     const peerElement = document.querySelector('#peer');
-    
+
     peer.on('open', (id) => {
       peerElement.innerHTML = `Peer: ${id}`;
     });
 
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    navigator.getUserMedia = navigator.getUserMedia 
+      || navigator.webkitGetUserMedia 
+      || navigator.mozGetUserMedia;
+    
     navigator.getUserMedia({ video: true, audio: true }, (stream) => {
       var call = peer.call('<%= id %>', stream);
       call.on('stream', (remoteStream) => {

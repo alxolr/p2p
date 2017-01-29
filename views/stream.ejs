@@ -15,9 +15,14 @@
   <p>Camera will start streaming as soon as a watcher will subscribe to it.</p>
   <div id="message"></div>
   <script type="text/javascript">
+    function getHost() {
+      return location.origin
+          .replace('http://', '')
+          .replace(':8080', '');
+    }
 
     const peer = new Peer({
-      host: 'localhost',
+      host: getHost(),
       port: 8080,
       path: 'api'
     });
@@ -31,7 +36,9 @@
       socket.emit('peer', id);
     });
 
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    navigator.getUserMedia = navigator.getUserMedia
+      || navigator.webkitGetUserMedia
+      || navigator.mozGetUserMedia;
     
     peer.on('call', (call) => {
       navigator.getUserMedia({ video: true, audio: true }, (stream) => {
