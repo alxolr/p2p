@@ -15,14 +15,16 @@
   <p>Camera will start streaming as soon as a watcher will subscribe to it.</p>
   <div id="message"></div>
   <script type="text/javascript">
+    const port = <%= port %>
     function getHost() {
       return location.origin
-          .replace('http://', '')
+          .replace(/^(https?|ftp):\/\//, '')
+          .replace(`:${port}`, '')
     }
 
     const peer = new Peer({
       host: getHost(),
-      port: 80,
+      port: port,
       path: 'api'
     });
 

@@ -2,12 +2,13 @@ const express = require('express');
 const ExpressPeerServer = require('peer').ExpressPeerServer;
 const ws = require('./ws/ws');
 const routes = require('./routes/app');
+const config = require('config');
 
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || config.port || 8080;
 
 const options = {
   // debug: true,

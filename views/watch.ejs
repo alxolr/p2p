@@ -14,14 +14,16 @@
 
   <video id="stream" autoplay controls></video>
   <script>
+    const port = <%= port %>
     function getHost() {
       return location.origin
-          .replace('http://', '')
+          .replace(/^(https?|ftp):\/\//, '')
+          .replace(`:${port}`, '')
     }
 
     const peer = new Peer({
       host: getHost(),
-      port: 80,
+      port: port,
       path: 'api'
     });
     const video = document.querySelector('#stream');
