@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <h1>Users dashboard</h1>
+  <p>Users</p>
+  <ul id="users"></ul>
+  <script type="text/javascript">
+    const socket = io();
+    const usersElement = document.getElementById('users');
+
+    socket.on('users', (users) => {
+        console.log('Data', users);
+      usersElement.innerHTML = users.Identifier + " _ " + users.CellId;
+    });
+  </script>
+</body>
+
+</html>

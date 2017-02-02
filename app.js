@@ -11,6 +11,7 @@ function handleError(err) {
 }
 
 client.on('connectFailed', (error) => {
+  console.log('failed connection');
   handleError(error);
 });
 

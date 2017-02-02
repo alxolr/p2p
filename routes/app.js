@@ -22,3 +22,9 @@ router.get('/stream', (req, res) => {
   });
 });
 
+router.get('/dashboard', (req, res) => {
+  res.render('dashboard', {
+    port: config.port,
+  });
+});
+
